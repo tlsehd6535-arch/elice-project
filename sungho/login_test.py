@@ -24,30 +24,39 @@ time.sleep(2)
 
 #로그인 이메일 ,비번 입력 후 login 버튼 누르기 
 driver.find_element(By.CSS_SELECTOR, "[placeholder='Email']").send_keys("qa3team03@elicer.com")
-driver.find_element(By.CSS_SELECTOR, "[placeholder='Password']").send_keys("@qa12345")
+driver.find_element(By.CSS_SELECTOR, "[placeholder='Password']").send_keys("qa123456")
 time.sleep(1)
 driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
 time.sleep(5)
+
+try:
+    error_element = driver.find_element(By.XPATH, "//p[contains(text(), 'Email or password does not match')]" )
+    print("오류 메시지 확인됨:", error_element.text)
+except NoSuchElementException:
+    print("오류 메시지를 찾지 못했음")
+
 print("로그인 완료")
 
+      
+
 #올바르게 접속됐는지 주소 확인
-current_url = driver.current_url
-print(f"\n현재 URL: {current_url}")
-time.sleep(2)
+# current_url = driver.current_url
+# print(f"\n현재 URL: {current_url}")
+# time.sleep(2)
 
-#로그아웃
-driver.find_element(By.CSS_SELECTOR, '[data-testid="PersonIcon"]').click()
-time.sleep(1)
-driver.find_element(By.XPATH, "//p[contains(text(), '로그아웃')]").click()
-time.sleep(2)
+# #로그아웃
+# driver.find_element(By.CSS_SELECTOR, '[data-testid="PersonIcon"]').click()
+# time.sleep(1)
+# driver.find_element(By.XPATH, "//p[contains(text(), '로그아웃')]").click()
+# time.sleep(2)
 
-current_url = driver.current_url
-print(f"\n현재 URL: {current_url}")
-time.sleep(2)
-print("로그아웃 완료")
+# current_url = driver.current_url
+# print(f"\n현재 URL: {current_url}")
+# time.sleep(2)
+# print("로그아웃 완료")
 
-#로그아웃 후 재 로그인
-driver.find_element(By.CSS_SELECTOR, "[placeholder='Password']").send_keys("@qa12345")
-driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
-time.sleep(2)
-print("재로그인 정상적 완료")
+# #로그아웃 후 재 로그인
+# driver.find_element(By.CSS_SELECTOR, "[placeholder='Password']").send_keys("@qa12345")
+# driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
+# time.sleep(2)
+# print("재로그인 정상적 완료")

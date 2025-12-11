@@ -46,36 +46,19 @@ def wait_for_element(driver, selector,by=By.CSS_SELECTOR,timeout=10):
 
 def wait_clickable(driver, selector, by=By.CSS_SELECTOR, timeout=10):
     return WebDriverWait(driver, timeout).until(
-        EC.element_to_be_clickable((by,selector))
+        EC.element_to_be_clickable((by, f"[type='{selector}]"))
     )
 
-def click_element(driver, selector: str):
-    """Click element with data-testid."""
-    element = wait_clickable(driver, selector)
-    element.click()
-    return element
-
-
-def type_text(driver, selector: str, text: str):
-    """Type text into element with data-testid."""
-    element = wait_for_element(driver, selector)
-    element.clear()
-    element.send_keys(text)
-    return element
 
 # -----------------------------
 # 로그인 기능
 # -----------------------------
-def login(driver):
-
+def login(driver, email, password):
     print("\n▶ 가입된 계정 로그인 진행 중...")
 
-
-    type_text(driver,"Email","qa3team03@elicer.com")
-    type_text(driver,"Password","@qa12345")
-    click_element(driver,"[type='submit']")
-    time.sleep(2)
-
+    wait_clickable(driver, "[placeholder='Email']").send_keys(email)
+    wait_clickable(driver, "[placeholder='Password']").send_keys(password)
+    wait_clickable(driver, "[type='submit']").click()
 
     # 로그인 후 화면에 나타나는 요소를 기다리기
     WebDriverWait(driver, 30).until(
@@ -83,6 +66,7 @@ def login(driver):
             (By.CSS_SELECTOR, '[data-testid="PersonIcon"]')
         )
     )
+
     print("✔ 로그인 성공(메인 화면 로딩 확인됨)")
 
 
