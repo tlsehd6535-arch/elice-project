@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 # 기본 설정
 BASE_LOGIN_URL = "https://accounts.elice.io/accounts/signin/me?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat&lang=en-US&org=qaproject"
-
+BASE_SIGNUP_URL ="https://accounts.elice.io/accounts/signup/method?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat%3FisFirstLogin%3Dtrue&lang=en-US&org=qaproject"
 
 # -----------------------------
 # 드라이버 생성
@@ -33,6 +33,10 @@ def get_driver():
 # -----------------------------
 def navigate_to_login(driver):
     driver.get(BASE_LOGIN_URL)
+    time.sleep(2)
+# 회원가입 창 이동    
+def navigate_to_signup(driver):
+    driver.get(BASE_SIGNUP_URL)
     time.sleep(2)
 
 
@@ -110,7 +114,7 @@ def logout(driver):
 
     time.sleep(1)
     print("✔ 로그아웃 완료")
-    driver.quit()
+    
 
 
 # -----------------------------

@@ -32,7 +32,7 @@ time.sleep(5)
 try:
     error_element = driver.find_element(By.XPATH, "//p[contains(text(), 'Email or password does not match')]" )
     print("오류 메시지 확인됨:", error_element.text)
-except NoSuchElementException:
+except NoAlertPresentException:
     print("오류 메시지를 찾지 못했음")
 
 print("로그인 완료")
