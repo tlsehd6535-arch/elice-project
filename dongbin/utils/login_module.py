@@ -12,16 +12,7 @@ PASSWORD_INPUT_NAME = "password"
 LOGIN_BUTTON_SELECTOR = "button[type='submit']" 
 
 def perform_login(driver: WebDriver, email: str, password: str):
-    """
-    주어진 드라이버를 사용하여 엘리스 계정으로 로그인합니다.
-    로그인 페이지가 이미 열려있어야 합니다.
-    
-    Args:
-        driver (WebDriver): 초기화된 WebDriver 객체.
-        email (str): 로그인할 계정의 이메일.
-        password (str): 로그인할 계정의 비밀번호.
-    """
-    
+   
     try:
         # WebDriverWait 설정: 요소가 나타날 때까지 명시적으로 기다립니다.
         wait = WebDriverWait(driver, 15)
