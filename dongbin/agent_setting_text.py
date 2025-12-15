@@ -36,11 +36,7 @@ wait = WebDriverWait(driver, 10)
 print("--- 에이전트 생성 프로세스 시작 ---")
 
 try:
-    agent_make_btn = wait.until(
-      EC.element_to_be_clickable((By.XPATH, "//a[normalize-space()='만들기']")))
-   
-    agent_make_btn.click()
-    print("[SUCCESS]'만들기'버튼 클릭 성공.")
+    click_make_button(driver, wait_time =10)
           
     agent_make_description= wait.until(
         EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='에이전트의 짧은 설명을 입력해보세요']"))
@@ -77,7 +73,7 @@ except Exception as e:
     print(f"오류 메시지: {e}")
     
 finally:
-    # 🚨 브라우저를 닫는 명령어입니다.
+    #브라우저를 닫는 명령어
     if 'driver' in locals() and driver:
         driver.quit()
         print("\n[INFO] 드라이버 종료.")

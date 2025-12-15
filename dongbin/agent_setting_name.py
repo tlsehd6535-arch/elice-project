@@ -14,6 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from utils.credentials import USER_EMAIL, USER_PASSWORD
 from utils.driver_setup import login_driver
 from utils.login_module import perform_login
+from utils.common_actions import click_make_button
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.join(current_dir, '..')
@@ -40,8 +41,7 @@ agent_make_btn = wait.until(
 print("--- 에이전트 생성 프로세스 시작 ---")
 
 try:    
-    agent_make_btn.click()
-    print("[SUCCESS]'만들기'버튼 클릭 성공.")
+    click_make_button(driver, wait_time =10)
        
     agent_make_name = wait.until(
         EC.visibility_of_element_located((By.NAME, "name"))
