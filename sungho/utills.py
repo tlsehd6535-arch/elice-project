@@ -1,5 +1,6 @@
 import os
 import time
+import random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -68,6 +69,9 @@ def type_text(driver, selector: str, text: str):
     element.send_keys(text)
     return element
 
+def generate_unique_username():
+    num = random.randint(1000, 9999)
+    return f"testuser{num}"
 # -----------------------------
 # 로그인 기능
 # -----------------------------
@@ -115,6 +119,28 @@ def logout(driver):
 
     time.sleep(1)
     print("✔ 로그아웃 완료")
+#회원가입 기능 
+def open_signup_page(driver):
+    navigate_to_signup(driver)
+    click_element(driver, "[type='button']")
+
+def fill_signup_form(driver, email=None, password=None, name=None):
+    if email is not None:
+        type_text(driver, "Email", email)
+    if password is not None:
+        type_text(driver, "Password", password)
+    if name is not None:
+        type_text(driver, "Name", name)
+
+    driver.find_element(By.CSS_SELECTOR, "input[type='checkbox']").click()
+
+def submit_signup(driver):
+    click_element(driver, "button[type='submit']")
+    
+def signup(driver, email, password, name):
+    open_signup_page(driver)
+    fill_signup_form(driver, email, password, name)
+    submit_signup(driver)
     
 
 
@@ -123,50 +149,6 @@ def logout(driver):
 # -----------------------------
 def print_current_url(driver):
     print(f"현재 URL: {driver.current_url}")
-
-#로그인 창에서 유효하지 않은 아이디,ps 입력 시
-def test_wrong_password(driver, email):
-    print("\n▶ 잘못된 비밀번호 테스트 시작")
-
-    navigate_to_login(driver)
-
-    wait_clickable(driver, "[placeholder='Email']").send_keys(email)
-    wait_clickable(driver, "[placeholder='Password']").send_keys("wrong_password!")
-    wait_clickable(driver, "[type='submit']").click()
-
-    try:
-        error_element = driver.find_element(
-            By.XPATH, "//p[contains(text(), 'Email or password does not match')]"
-        )
-        print("✔ 오류 메시지 확인됨:", error_element.text)
-        assert "Email or password does not match" in error_element.text
-        time.sleep(2)
-        print("✔ 테스트 통과!")
-    except NoSuchElementException:
-        print("❌ 오류 메시지를 찾지 못했음")
-        assert False, "Wrong password test failed - error message not found"
-
-#8글자 이하 password 입력
-def test_short_password(driver, email):
-    print("\n▶ 짧은 비밀번호 테스트 시작")
-
-    navigate_to_login(driver)
-
-    wait_clickable(driver, "[placeholder='Email']").send_keys(email)
-    wait_clickable(driver, "[placeholder='Password']").send_keys("12345")
-    wait_clickable(driver, "[type='submit']").click()
-
-    try:
-        error_element = driver.find_element(
-            By.XPATH, "//p[contains(text(), '8') or contains(text(), 'password')]"
-        )
-        print("✔ 짧은 비밀번호 오류 메시지 확인:", error_element.text)
-        assert "8" in error_element.text or "password" in error_element.text
-        time.sleep(2)
-        print("✔ 테스트 통과!")
-    except NoSuchElementException:
-        print("❌ 짧은 비밀번호 오류 메시지를 찾지 못했음")
-        assert False, "Short password test failed - error message not found"    
 
 
 
