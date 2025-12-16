@@ -20,7 +20,7 @@ class ChatBotTester:
     def send_message(self, message):
         textarea = self.browser.find_element(By.CSS_SELECTOR, "textarea[name='input']")
 
-        for line in message.split("\n"):
+        for line in message.split("\n"): # 질문 입력시 줄바꿈있다면 시프트+엔터 사용
             textarea.send_keys(line)
             textarea.send_keys(Keys.SHIFT, Keys.ENTER)
 
@@ -58,14 +58,14 @@ class ChatBotTester:
 
         # 2️⃣ 스피너가 있다면 사라질 때까지
         try:
-            WebDriverWait(self.browser, 5).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, spinner_selector))
+            WebDriverWait(self.browser, 5).until(                                # 최대 5초 동안 조건이 TRUE 가 될때까지 기다림, 만족하면 통과 및 다음 실행
+                EC.presence_of_element_located((By.CSS_SELECTOR, spinner_selector)) # 요소가 존재하는 상태인지 판단, 직접 찾는 find_element 와 다름
             )
             WebDriverWait(self.browser, 300).until_not(
-                EC.presence_of_element_located((By.CSS_SELECTOR, spinner_selector))
+                EC.presence_of_element_located((By.CSS_SELECTOR, spinner_selector)) # 반대로 300초 동안 기다리다가 스피너가 사라지면 통과
             )
         except Exception:
-            print("ℹ️ 스피너 감지되지 않음 (즉시 답변 가능)")
+            print("ℹ️ 스피너 감지되지 않음 (즉시 답변 가능)") # 스피너가 없다면 스킵, 실패 아님
 
         print("⏳ 스피너 대기 종료")
 
