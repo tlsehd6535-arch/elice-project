@@ -5,6 +5,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from chatbot_tester import ChatBotTester # 챗봇 동작 로직 클래스
 from saveJson_gunhoo import save_json # json 저장 유틸
@@ -40,13 +42,18 @@ def browser(): # 테스트 전체(session) 동안 사용할 브라우저를 1개
 @pytest.fixture(scope="session", autouse=True)
 def test_login(browser): # 테스트 시작 시 자동으로 로그인 처리
     browser.get(LOGIN_URL)
-    time.sleep(1)
+
+    WebDriverWait(browser, 10).until(                           
+        EC.presence_of_element_located((By.NAME, "loginId"))
+    )
 
     browser.find_element(By.NAME, "loginId").send_keys(USERNAME)
     browser.find_element(By.NAME, "password").send_keys(PASSWORD)
     browser.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
-    time.sleep(2)  # 로그인 안정화 대기
+    WebDriverWait(browser, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[name='input']"))
+    )
 
 
 # -----------------------------
@@ -75,7 +82,7 @@ def test_chatbot_by_tc(browser, tc):
             "answer": answer
         })
 
-        time.sleep(1)
+        # time.sleep(1)
 
     # TC 단위로 JSON 저장
     save_json(f"{tc['tc_id']}.json", {      # 파일명
@@ -85,6 +92,6 @@ def test_chatbot_by_tc(browser, tc):
 
     # TC 종료 시 새 채팅 (개별 / 연속 공통)
     tester.new_chat()
-    time.sleep(1)
+    # time.sleep(1)
 
     
