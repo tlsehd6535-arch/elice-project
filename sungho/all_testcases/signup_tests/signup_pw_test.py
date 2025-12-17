@@ -2,7 +2,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from utills import *
 
@@ -111,7 +111,7 @@ def right_password_test():
 if __name__ == "__main__":
     print("Test 5: 8자 미만 패스워드 테스트")
     short_password_test()
-    print("Test 6: 잘못된 조합의 패스워드 테스트")
+    print("\nTest 6: 잘못된 조합의 패스워드 테스트")
     wrong_rule_password_test()
-    print("Test 7: 정상적인 비밀번호 입력 테스트")
+    print("\nTest 7: 정상적인 비밀번호 입력 테스트")
     right_password_test()

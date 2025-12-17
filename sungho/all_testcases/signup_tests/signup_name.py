@@ -1,8 +1,7 @@
 from selenium.common.exceptions import TimeoutException
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utills import *
 
 #TC08 이름 미입력시 테스트
@@ -46,10 +45,9 @@ def too_long_name_test():
         signup(driver,email,password,name)
         save_screenshot(driver,"signup_name","TC09_long_name_input")
         try:
-            error_element = driver.find_element(By.XPATH, "//p[contains(text(), 'Please enter your name')]")
+            error_element = driver.find_element(By.XPATH, "//p[contains(text(), 'your name is too long')]")
             assert "enter your name" in error_element.text
             print("오류 메세지 확인됨:",error_element.text)
-            
             print("TC08 통과")
         except NoSuchElementException:
             print("❌ 어떠한 오류메시지를 찾지 못했음")

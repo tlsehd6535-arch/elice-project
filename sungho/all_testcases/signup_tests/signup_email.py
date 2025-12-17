@@ -1,8 +1,9 @@
 from selenium.common.exceptions import TimeoutException
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utills import *
+
 
 
 
@@ -105,7 +106,7 @@ def right_signup_test():
 
         #ai-helpy-chat창으로 넘어가는지 시도
         try:
-            WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 15).until(
             EC.url_contains("/ai-helpy-chat")
         )
             print("✔ ai-helpy-chat 페이지 이동 확인 (테스트 성공)")
@@ -157,6 +158,6 @@ if __name__ == "__main__":
     wrong_email_type_test()
     print("Test3: 정상적 회원가입 후 로그인 테스트")
     right_signup_test()
-    print("Test4: 정상적 회원가입 후 로그인 테스트")
+    print("Test4: 회원가입 후 중복 이메일 테스트")
     duplicate_email_test()
 

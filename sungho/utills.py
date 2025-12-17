@@ -2,6 +2,7 @@ import os
 import time
 import random
 from datetime import datetime
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -23,6 +24,7 @@ SCREENSHOT_DIR = os.path.join(BASE_DIR, "screenshots")
 # -----------------------------
 # 드라이버 생성
 # -----------------------------
+
 def get_driver():
     chrome_options = Options()
     chrome_options.add_argument("--no-sandbox")
@@ -32,6 +34,12 @@ def get_driver():
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.implicitly_wait(10)
     return driver
+@pytest.fixture
+def driver():
+    driver = get_driver()
+    yield driver
+    driver.quit()
+
 #스크린샷 설정
 def save_screenshot(driver, test_type: str, name: str):
     """
@@ -97,27 +105,14 @@ def type_text(driver, selector: str, text: str):
 def generate_unique_username():
     num = random.randint(1000, 9999)
     return f"testuser{num}"
+
+# 공통 로그인 함수
 # -----------------------------
-# 로그인 기능
-# -----------------------------
-def login(driver):
-
-    print("\n▶ 가입된 계정 로그인 진행 중...")
-
-
-    type_text(driver,"Email","qa3team03@elicer.com")
-    type_text(driver,"Password","@qa12345")
-    click_element(driver,"[type='submit']")
-    time.sleep(2)
-
-
-    # 로그인 후 화면에 나타나는 요소를 기다리기
-    WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '[data-testid="PersonIcon"]')
-        )
-    )
-    print("✔ 로그인 성공(메인 화면 로딩 확인됨)")
+def login(driver, email, password):
+    navigate_to_login(driver)
+    type_text(driver, "Email", email)
+    type_text(driver, "Password", password)
+    click_element(driver, "[type='submit']")
 
 
 
@@ -141,9 +136,15 @@ def logout(driver):
 
     wait_clickable(driver, '[data-testid="PersonIcon"]').click()
     wait_clickable(driver, "//p[contains(text(), '로그아웃')]", by=By.XPATH).click()
+    welcome_text = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(text(), 'Nice to meet you again')]")
+            )
+        )
+    assert welcome_text.is_displayed()
+    print("TC17:정상적으로 로그아웃 완료")
 
     time.sleep(1)
-    print("✔ 로그아웃 완료")
 #회원가입 기능 
 def open_signup_page(driver):
     navigate_to_signup(driver)
