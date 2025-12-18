@@ -9,6 +9,7 @@ def test_login_logout(driver):
         login(driver, "qa3team03@elicer.com", "@qa12345")
         print("로그인 완료")
         logout(driver)
+        print("TC17-로그인 후 로그아웃 완료")
 
         type_text(driver, "Password", "@qa12345")
         click_element(driver, "button[type='submit']")

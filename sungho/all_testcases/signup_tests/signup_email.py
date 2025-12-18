@@ -91,29 +91,19 @@ def right_signup_test():
 
         signup(driver, email, password, name)
          # 회원가입 성공 화면 검증
-        welcome_text = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located(
-                (By.XPATH, "//*[contains(text(), 'Nice to meet you again')]")
+        WebDriverWait(driver, 15).until(
+                EC.url_contains("/ai-helpy-chat")
             )
+        icon = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, '[data-testid="PersonIcon"]')
         )
-        assert welcome_text.is_displayed()
-        print("✔ 계정 정상적으로 생성")
+    )
+        assert icon.is_displayed()
+        print("✔ ai-helpy-chat 페이지 이동 확인 (테스트 성공)")
         save_screenshot(driver,"signup_email","TC03_계정생성완료")
 
-        #생성된 계정으로 로그인 시도
-        type_text(driver, "Password", "@qa12345")
-        click_element(driver, "button[type='submit']")
-
-        #ai-helpy-chat창으로 넘어가는지 시도
-        try:
-            WebDriverWait(driver, 15).until(
-            EC.url_contains("/ai-helpy-chat")
-        )
-            print("✔ ai-helpy-chat 페이지 이동 확인 (테스트 성공)")
-        except TimeoutException:
-            print("❌ ai-helpy-chat 페이지로 이동하지 않음 (테스트 실패)")
-            save_screenshot(driver,"signup_email","TC03_right_signup_Fail")
-
+       
     finally:
         driver.quit()
 
@@ -152,12 +142,12 @@ def duplicate_email_test():
 
 
 if __name__ == "__main__":
-    print("Test 1: 이메일 공란 테스트")
-    space_email_test()
-    print("Test 2: 잘못된 이메일 형식 회원가입 테스트")
-    wrong_email_type_test()
+    # print("Test 1: 이메일 공란 테스트")
+    # space_email_test()
+    # print("Test 2: 잘못된 이메일 형식 회원가입 테스트")
+    # wrong_email_type_test()
     print("Test3: 정상적 회원가입 후 로그인 테스트")
     right_signup_test()
-    print("Test4: 회원가입 후 중복 이메일 테스트")
-    duplicate_email_test()
+    # print("Test4: 회원가입 후 중복 이메일 테스트")
+    # duplicate_email_test()
 

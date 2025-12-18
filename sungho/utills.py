@@ -2,7 +2,6 @@ import os
 import time
 import random
 from datetime import datetime
-import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -34,11 +33,7 @@ def get_driver():
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.implicitly_wait(10)
     return driver
-@pytest.fixture
-def driver():
-    driver = get_driver()
-    yield driver
-    driver.quit()
+
 
 #스크린샷 설정
 def save_screenshot(driver, test_type: str, name: str):
@@ -135,6 +130,7 @@ def logout(driver):
     print("\n▶ 로그아웃 진행 중...")
 
     wait_clickable(driver, '[data-testid="PersonIcon"]').click()
+    time.sleep(1)
     wait_clickable(driver, "//p[contains(text(), '로그아웃')]", by=By.XPATH).click()
     welcome_text = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(

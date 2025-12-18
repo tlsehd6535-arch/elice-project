@@ -25,7 +25,7 @@ def short_password_test():
             print("✔ 오류 메시지 확인됨:", error_element.text)
             print("✔ TC5 통과!")
             save_screenshot(driver,"signup_pw","TC05_short_ps")
-            time.sleep(2)
+            assert "Please make your password stronger!" in error_element.text
         except NoSuchElementException:
             print("❌ Please make your password stronger! 메시지를 찾지 못했음")
 

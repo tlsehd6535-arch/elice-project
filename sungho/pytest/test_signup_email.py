@@ -40,32 +40,29 @@ def test_wrong_email_type(driver):
 
 
 # TC3 정상 회원가입
-def test_right_signup(driver):
-    email = generate_unique_username() + "@naver.com"
-    password = "@qa12345"
-    name = "김성호"
+def test_right_signup(driver,valid_signup_data):
+    
 
-    signup(driver, email, password, name)
+    signup(driver, **valid_signup_data)
 
-    welcome_text = WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 15).until(
+                EC.url_contains("/ai-helpy-chat")
+            )
+    icon = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
-            (By.XPATH, "//*[contains(text(), 'Nice to meet you again')]")
+            (By.CSS_SELECTOR, '[data-testid="PersonIcon"]')
         )
     )
-
-    assert welcome_text.is_displayed()
+    assert icon.is_displayed()
     save_screenshot(driver, "signup_email", "TC03_signup_success")
 
 # TC4 중복 이메일 회원가입
-def test_duplicate_email(driver):
-    email = generate_unique_username() + "@naver.com"
-    password = "@qa12345"
-    name = "김성호"
+def test_duplicate_email(driver,valid_signup_data):
 
-    signup(driver, email, password, name)
+    signup(driver,**valid_signup_data)
 
     open_signup_page(driver)
-    fill_signup_form(driver, email)
+    fill_signup_form(driver,valid_signup_data["email"])
 
     error = WebDriverWait(driver, 5).until(
         EC.presence_of_element_located(
