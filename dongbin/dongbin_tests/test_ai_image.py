@@ -1,3 +1,5 @@
+### 이미지 생성 테스트
+
 import pytest
 import time
 from selenium.webdriver.common.by import By

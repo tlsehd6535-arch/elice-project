@@ -1,3 +1,5 @@
+### ai 챗을 이용한 에이전트 자동생성 (비정상 입력) pytest
+
 import pytest
 import time
 import json
@@ -18,7 +20,7 @@ MESSAGE_TEXTAREA = (By.NAME, "input")
 AI_CHAT_BUBBLE = (By.CSS_SELECTOR, "div.elice-aichat__markdown")
 
 def test_agent_abnormal_input(driver):
-    """비정상 입력(의미 없는 문자열)에 대한 AI 에이전트 반응 테스트"""
+    """비정상 입력에 대한 AI 에이전트 반응 테스트"""
     wait = WebDriverWait(driver, 15)
     conversation_history = []
     
