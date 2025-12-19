@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .env
+sungho/screenshots/signup_name/TC08_space_name_20251216_205847.png
+# Screenshots (테스트 결과물)
+screenshots/
