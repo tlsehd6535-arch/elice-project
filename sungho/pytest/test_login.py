@@ -17,7 +17,7 @@ from utills import *
 # -----------------------------
 def test_login_success(driver):
     print("\nTC13: 정상 로그인 테스트")
-    login(driver, "qa3team03@elicer.com", "@qa12345")
+    login(driver,"qa3team03@elicer.com" ,"@qa12345")
 
     icon = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
@@ -29,9 +29,9 @@ def test_login_success(driver):
     print("TC13: 정상 로그인 테스트 성공")
 
 
-# -----------------------------
-# TC2: 잘못된 비밀번호
-# -----------------------------
+
+#TC2: 잘못된 비밀번호
+
 def test_wrong_password(driver):
     print("\nTC14: 잘못된 비밀번호 로그인 테스트")
     login(driver, "qa3team03@elicer.com", "!qa12345")
