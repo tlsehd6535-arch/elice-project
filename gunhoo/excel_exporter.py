@@ -17,7 +17,7 @@ def export_json_to_excel():
     # 헤더
     ws.append(["TC ID", "Question", "Answer"])
 
-    for filename in os.listdir(JSON_DIR): # 모든 파일 순회, 가져옴
+    for filename in os.listdir(JSON_DIR):  # 모든 파일 순회, 가져옴
         if not filename.endswith(".json"): # 그중 .json이 아닌 파일 무시, 필터링. 즉 다른 파일있어도 충돌안남
             continue
 

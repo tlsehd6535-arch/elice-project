@@ -18,22 +18,30 @@ class ChatBotTester:
     # 1. 메시지 전송
     # ------------------------------------------------
     def send_message(self, message):
-        for idx, line in enumerate(message.split("\n")):        # idx = 줄 번호, line = 실제 텍스트, enumerate = 인덱스와 실제 줄을 동시에 가져옴
-            textarea = WebDriverWait(self.browser, 10).until(       # 매번 한줄의 텍스트마다 입력창 찾음으로써 안정화
-                EC.presence_of_element_located(
+        lines = message.split("\n")
+
+        for idx, line in enumerate(lines): # 텍스트 입력 전, 입력 가능한 상태인지 확인하고 요소 찾기
+        
+            textarea = WebDriverWait(self.browser, 10).until(       # 조건 참이 될 때까지 반복 확인
+                EC.element_to_be_clickable(                         # 클릭 가능한 상태인지 확인
                     (By.CSS_SELECTOR, "textarea[name='input']")
                 )
             )
-
             textarea.send_keys(line)
 
             # 마지막 줄이 아니면 줄바꿈만
-            if idx < len(message.split("\n")) - 1:          
+            if idx < len(lines) - 1:                                # 현재 처리 중인 줄의 번호가 마지막 번호보다 작다면
+                # 줄바꿈 키를 보내기 전에도 반드시 요소를 다시 찾음
+                textarea = WebDriverWait(self.browser, 10).until(   # textarea 똑같이 값을 넣어 할당해 최신 주소로 갱신, 요소 참조 오류 방어
+                    EC.element_to_be_clickable(
+                        (By.CSS_SELECTOR, "textarea[name='input']")
+                    )
+                )
                 textarea.send_keys(Keys.SHIFT, Keys.ENTER)
 
-        # 마지막에 전송
+        # 마지막 전송(Enter) 전에도 요소를 다시 찾음
         textarea = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located(
+            EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, "textarea[name='input']")
             )
         )

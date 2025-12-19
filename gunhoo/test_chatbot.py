@@ -1,5 +1,8 @@
 import time
 import pytest
+import os
+from dotenv import load_dotenv # .env 로딩
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -13,12 +16,16 @@ from saveJson_gunhoo import save_json # json 저장 유틸
 from chat_test_cases import TEST_CASES # 질문목록
 
 # -----------------------------
+# 환경 변수 로드 (.env 파일 읽기)
+# -----------------------------
+load_dotenv()
+
+# -----------------------------
 # 로그인 정보 / URL 설정
 # -----------------------------
-USERNAME = "qa3team03@elicer.com"
-PASSWORD = "@qa12345"
-
-LOGIN_URL = "https://accounts.elice.io/accounts/signin/me?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat&lang=en-US&org=qaproject"
+USERNAME = os.getenv("ELICE_USERNAME")
+PASSWORD = os.getenv("ELICE_PASSWORD")
+LOGIN_URL = os.getenv("ELICE_LOGIN_URL")
 
 # -----------------------------
 # pytest 브라우저 생성 FIXTURE (파이테스트 - 테스트 이전 미리 준비하는 것)
