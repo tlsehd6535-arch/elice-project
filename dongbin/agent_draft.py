@@ -22,8 +22,6 @@ BACK_BUTTON = (By.XPATH, "//button[@aria-label='뒤로가기']")
 MY_AGENTS_BUTTON = (By.XPATH, "//a[@href='/ai-helpy-chat/agents/mine']")
 MAKE_BUTTON = (By.XPATH, "//a[normalize-space()='만들기']")
 
-#나만보기
-PRIVATE_STATE = (By.XPATH, "//span[normalize-space()='나만보기']")
 
 #초안 선택자
 DRAFT_CARD_LOCATOR = (By.XPATH, f"//a[contains(@class, 'MuiCard-root')]//p[text()='{agent_name}']/ancestor::a//span[normalize-space()='초안']")

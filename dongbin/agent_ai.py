@@ -130,7 +130,7 @@ finally:
 
         print(f"\n[SUCCESS] 로그가 저장되었습니다: {file_path}")
 
-        # if 'driver' in locals() and driver:
-        #     time.sleep(3) 
-        #     driver.quit()
-        #     print("\n[INFO] 드라이버 종료.")
+        if 'driver' in locals() and driver:
+            time.sleep(3) 
+            driver.quit()
+            print("\n[INFO] 드라이버 종료.")

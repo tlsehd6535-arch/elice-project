@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-# 기존에 작성하신 유틸리티 함수 임포트
+
 from utils.chat_utils import wait_for_AI_complete
 
 # --- 선택자 및 설정 ---
@@ -50,7 +50,7 @@ def test_agent_abnormal_input(driver):
         input_box.send_keys(question)
         input_box.send_keys(Keys.ENTER)
         
-        # AI 응답 대기 (기존 유틸리티 활용)
+        # AI 응답 대기
         final_answer = wait_for_AI_complete(driver, before_count, timeout=60)
         
         # 결과 기록
@@ -60,7 +60,6 @@ def test_agent_abnormal_input(driver):
             "ai_response": final_answer
         })
         
-        # 검증: AI가 최소한 무언가 대답을 했는지 확인
         assert len(final_answer) > 0, f"{i}번째 응답이 비어있습니다."
 
     # 5. 테스트 결과 JSON 저장
@@ -69,7 +68,7 @@ def test_agent_abnormal_input(driver):
 
 def save_abnormal_log(history):
     """비정상 테스트 결과를 JSON 파일로 저장"""
-    # 폴더 경로 설정 (qa03/dongbin/results)
+   
     results_dir = os.path.join(os.getcwd(), "dongbin", "results")
     os.makedirs(results_dir, exist_ok=True)
     file_path = os.path.join(results_dir, "abnormal_test_log.json")
@@ -80,7 +79,7 @@ def save_abnormal_log(history):
         "full_chat": history
     }
 
-    # 기존 데이터 로드 및 추가
+
     data = []
     if os.path.exists(file_path):
         try:

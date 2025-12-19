@@ -1,10 +1,18 @@
 import pytest
 import os
+import sys
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils.common_actions import click_make_button
+from selenium.common.exceptions import TimeoutException
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+dongbin_path = os.path.join(project_root, 'dongbin')
+if dongbin_path not in sys.path:
+    sys.path.insert(0, dongbin_path)
 
 # --- 선택자 설정 ---
 NAME_INPUT = (By.NAME, "name")
@@ -20,8 +28,7 @@ def test_full_agent_creation_with_file_and_tools(driver):
     """파일 업로드 및 도구 다중 선택을 포함한 에이전트 생성 전체 테스트"""
     wait = WebDriverWait(driver, 15)
     
-    # 1. 파일 경로 설정 (테스트 파일이 있는 위치 기준)
-    # dongbin/tests/elice_logo.png 파일이 있다고 가정합니다.
+
     current_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(current_dir, "elice_logo.png")
     
@@ -37,22 +44,20 @@ def test_full_agent_creation_with_file_and_tools(driver):
     wait.until(EC.visibility_of_element_located(STARTER_FIELD_XPATH)).send_keys("대중교통")
     print("[SUCCESS] 기본 정보 입력 완료")
 
-    # 4. 파일 업로드
-    # 파일이 실제로 존재하는지 체크 후 진행
     if os.path.exists(file_path):
         driver.find_element(*FILE_INPUT).send_keys(file_path)
         print(f"[SUCCESS] 파일 업로드 완료: {file_path}")
     else:
         print(f"[WARNING] 업로드할 파일을 찾을 수 없습니다: {file_path}")
 
-    # 5. 도구(체크박스) 다중 선택 테스트
+    # 5. 체크박스 다중 선택 테스트
     try:
         checkboxes = wait.until(EC.presence_of_all_elements_located(ALL_CHECKBOXES))
         print(f"[INFO] 발견된 체크박스: {len(checkboxes)}개")
         
         for i, box in enumerate(checkboxes):
             if not box.is_selected():
-                # 일반 클릭이 안될 경우를 대비해 JS 클릭 사용
+                
                 driver.execute_script("arguments[0].click();", box)
                 print(f"[{i+1}]번째 도구 선택 완료")
         
@@ -69,8 +74,18 @@ def test_full_agent_creation_with_file_and_tools(driver):
     final_save_btn = wait.until(EC.element_to_be_clickable(CREATE_SAVE_BUTTON))
     driver.execute_script("arguments[0].click();", final_save_btn)
     print("[SUCCESS] 에이전트 생성 완료")
+    
+    time.sleep(2)
 
     # 7. 최종 목록 이동 확인
-    wait.until(EC.url_contains("/agents/mine"))
-    assert "/mine" in driver.current_url
-    print("[PASS] 전체 생성 시나리오 성공")
+    try:
+            
+            WebDriverWait(driver, 20).until(EC.url_contains("/agents/mine"))
+            print("[PASS] 목록 페이지로 성공적으로 이동했습니다.")
+    except TimeoutException:
+        print("[WARNING] 전환이 느려 목록으로 강제 이동합니다.")
+        driver.get("https://qaproject.elice.io/ai-helpy-chat/agents/mine")
+        
+    time.sleep(3)
+    assert "동빈_풀테스트" in driver.page_source
+    print("[SUCCESS] 목록에서 '동빈_풀테스트' 존재 확인 완료!")

@@ -36,7 +36,7 @@ def test_agent_auto_draft_on_back(driver):
     wait.until(EC.visibility_of_element_located(RULE_TEXTAREA)).send_keys("이것은 초안 저장 테스트 규칙입니다.")
     print(f"[SUCCESS] 에이전트 정보 입력 완료: {agent_name}")
     
-    # 자동 저장이 처리될 시간을 잠시 부여
+
     time.sleep(2)
     
     # 5. '뒤로가기' 클릭 (저장 버튼 안 누름)
@@ -46,9 +46,7 @@ def test_agent_auto_draft_on_back(driver):
     
     # 6. 목록 복귀 확인
     wait.until(EC.url_to_be(MINE_URL))
-    
-    # 7. 검증: 목록에 방금 만든 에이전트가 '초안' 상태로 존재하는지 확인
-    # ancestor::a를 통해 카드 전체 구조에서 텍스트와 초안 라벨이 동시에 존재하는지 체크
+ 
     DRAFT_CARD_XPATH = f"//a[contains(@class, 'MuiCard-root')]//p[text()='{agent_name}']/ancestor::a//span[normalize-space()='초안']"
     
     try:

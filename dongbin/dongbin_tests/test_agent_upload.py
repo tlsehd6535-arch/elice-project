@@ -39,6 +39,7 @@ def test_create_agent_visibility(driver, target):
     # 3. 정보 입력
     wait.until(EC.visibility_of_element_located(NAME_INPUT)).send_keys(agent_name)
     wait.until(EC.visibility_of_element_located(SUMMARY_INPUT)).send_keys("길 찾기 에이전트")
+    time.sleep(2)
     wait.until(EC.visibility_of_element_located(SYSTEM_PROMPT_SELECTOR)).send_keys(agent_rule)
 
     # 4. 1차 '만들기' 버튼 클릭
@@ -56,19 +57,26 @@ def test_create_agent_visibility(driver, target):
     # 6. 최종 저장
     final_save_btn = wait.until(EC.element_to_be_clickable(CREATE_SAVE_BUTTON))
     driver.execute_script("arguments[0].click();", final_save_btn)
+    print(f"[ACTION] 최종 저장 클릭 완료")
+    
+    time.sleep(3)
     
     # 7. 목록으로 돌아가서 검증
-    time.sleep(2) # 저장 후 목록 갱신 대기
-    if "/mine" not in driver.current_url:
+    try:
+        wait.until(EC.url_contains("/agents/mine"))
+    except TimeoutException:
+        print("[WARNING] URL 전환이 느려 강제 이동합니다.")
         driver.get(AGENT_MINE_URL)
     
-    # 목록에서 방금 만든 에이전트 카드의 상태 텍스트 확인
+    
+
     status_text = "나만보기" if target == "private" else "기관 공개"
-    STATUS_XPATH = f"//a[contains(@class, 'MuiCard-root') and .//p[text()='{agent_name}']]//span[normalize-space()='{status_text}']"
+    AGENT_CARD_XPATH = f"//p[text()='{agent_name}']/ancestor::a[contains(@class, 'MuiCard-root')]"
     
     try:
-        status_label = wait.until(EC.visibility_of_element_located((By.XPATH, STATUS_XPATH)))
-        assert status_label.is_displayed()
-        print(f"[PASS] {agent_name}의 상태가 '{status_text}'임을 확인했습니다.")
+        card = wait.until(EC.presence_of_element_located((By.XPATH, AGENT_CARD_XPATH)))
+
+        assert status_text in card.text
+        print(f"[PASS] {agent_name} 생성 및 '{status_text}' 상태 확인 완료")
     except TimeoutException:
         pytest.fail(f"[FAIL] 목록에서 '{agent_name}'의 '{status_text}' 라벨을 찾을 수 없습니다.")

@@ -48,7 +48,7 @@ def test_dynamic_starter_fields_creation(driver):
     print(f"[PASS] 총 {MAX_STARTERS}개 필드 생성 및 입력 확인 완료")
 
     # 4. 최대 개수 초과 제한 확인
-    # 마지막(4번째) 필드에 값을 입력한 후 5번째 필드가 생기지 않아야 함
+
     time.sleep(1.5)
     extra_fields = driver.find_elements(*STARTER_FIELD)
     assert len(extra_fields) == MAX_STARTERS, "최대 개수를 초과하여 필드가 생성되었습니다."

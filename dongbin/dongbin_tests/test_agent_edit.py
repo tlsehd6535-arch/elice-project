@@ -27,21 +27,20 @@ def test_agent_edit_page_entry(driver):
         pytest.fail("에이전트 목록 페이지 로딩이 너무 느리거나 실패했습니다.")
 
     # 3. 수정 버튼 찾기 및 클릭
-    # 목록에 에이전트가 하나도 없을 수 있으므로 예외 처리를 수행합니다.
+
     try:
-        # 첫 번째로 발견되는 수정 버튼(펜 아이콘) 대기
+   
         edit_btn = wait.until(EC.element_to_be_clickable(EDIT_BUTTON))
-        
-        # 버튼 클릭 (간섭 방지를 위해 필요 시 JS 클릭 사용 가능하나 여기선 일반 클릭 시도)
+   
         edit_btn.click()
         print("[SUCCESS] 에이전트 수정 버튼 클릭 완료")
         
-        # 4. 수정 페이지 진입 검증 (URL에 /edit이 포함되는지 확인)
+
         wait.until(EC.url_contains("/edit"))
         assert "/edit" in driver.current_url, f"수정 페이지 진입 실패. 현재 URL: {driver.current_url}"
         print(f"[PASS] 수정 페이지 진입 성공: {driver.current_url}")
 
     except TimeoutException:
-        # 목록에 에이전트가 아예 없어서 수정 버튼이 안 뜨는 경우
+
         print("[SKIP] 목록에 수정할 수 있는 에이전트가 없습니다. 테스트를 중단합니다.")
         pytest.skip("수정할 에이전트 카드가 존재하지 않아 테스트를 건너뜁니다.")

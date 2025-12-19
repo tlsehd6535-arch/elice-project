@@ -138,7 +138,7 @@ except Exception as e:
     print(f"오류 클래스: {e.__class__.__name__}")
     print(f"오류 메시지: {e}")
     
-# finally:
-#     if 'driver' in locals() and driver:
-#         driver.quit()
-#         print("\n[INFO] 드라이버 종료.")
+finally:
+    if 'driver' in locals() and driver:
+        driver.quit()
+        print("\n[INFO] 드라이버 종료.")

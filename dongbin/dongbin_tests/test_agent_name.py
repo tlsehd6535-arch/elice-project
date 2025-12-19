@@ -39,7 +39,6 @@ def test_agent_name_length_validation(driver):
     print(f"[ACTION] 정상 이름('{VALID_NAME}')으로 수정 완료")
 
     # 5. 경고 메시지가 사라졌는지 확인
-    # invisibility_of_element_located는 해당 요소가 화면에서 사라질 때까지 대기합니다.
     is_msg_gone = wait.until(EC.invisibility_of_element_located(VALIDATION_XPATH))
     assert is_msg_gone, "정상 입력 후에도 경고 메시지가 사라지지 않았습니다."
     print("[PASS] 유효성 검사 메시지 사라짐 확인 완료")
