@@ -76,16 +76,20 @@ def test_wrong_rule_password(driver):
 def test_right_password(driver,valid_signup_data): # valid_signup_data= confitest.py에서 fixture로 만들어놓은 데이터
     print("\n▶ TC007: 정상 비밀번호 입력 테스트")
     
+    #회원가입창에 이메일, 비번, 이름 입력 후 약관 체크 후, create acoount 클릭
     signup(driver,**valid_signup_data)
 
+    #url 바뀌는지 확인
     WebDriverWait(driver, 15).until(
                 EC.url_contains("/ai-helpy-chat")
             )
+    #아이콘이 상단에 뜨는지 확인
     icon = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
             (By.CSS_SELECTOR, '[data-testid="PersonIcon"]')
         )
     )
+    #화면에 아이콘이 보이면 테스트 성공
     assert icon.is_displayed()
     print("TC007 테스트 성공")
     

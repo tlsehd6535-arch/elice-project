@@ -48,6 +48,7 @@ def test_too_long_name(driver):
         )
     )
         assert "too long" in error.text
+        
         #이름이 너무 길다는 문구를 찾지 못한다면, 테스트 실패. 실패한 화면 스크린샷 찍음,실패한 원인 출력
     except TimeoutException:
         save_screenshot(driver, "signup_name", "TC09_long_name_fail")

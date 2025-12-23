@@ -27,17 +27,17 @@ def checkbox_fill_signup(driver, email=None, password=None, name=None):
 def test_agree_all_check(driver,valid_signup_data):
     print("TC11: agree all 체크하기")
 
-    open_signup_page(driver)
+    open_signup_page(driver) #회원가입 창으로 이동
 
-    fill_signup_form(driver, **valid_signup_data)
+    fill_signup_form(driver, **valid_signup_data)#회원가입 창에서 유효한 이메일, 비번, 이름 입력 휴 이용약관까지 클릭해줌
 
     create_btn = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
-            (By.XPATH, "//button[contains(text(), 'Create account')]")
+            (By.XPATH, "//button[contains(text(), 'Create account')]") #Create account라는 문구가 있는 버튼이 있는지 찾음
         )
     )
 
-    assert create_btn.is_enabled()
+    assert create_btn.is_enabled()# 화면에 보이면 테스트 통과
     print("✔ Create account 버튼 활성화 확인")
 
 
@@ -69,5 +69,5 @@ def test_required_option_unchecked(driver,valid_signup_data):
 
     create_btn = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
 
-    assert not create_btn.is_enabled(), "❌ 필수 항목 미동의인데 버튼이 활성화됨"
+    assert not create_btn.is_enabled(), "❌ 필수 항목 미동의인데 버튼이 활성화됨" #create_btn이 활성화 되지 않으면 테스트 통과
     print("✔ Create account 버튼 비활성화 확인")

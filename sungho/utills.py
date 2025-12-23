@@ -112,19 +112,6 @@ def login(driver, email, password):
     click_element(driver, "[type='submit']")
 
 
-
-#재로그인 기능
-def relogin(driver,password):
-    print("\n▶ 로그인 진행 중...")
-    wait_clickable(driver, "[placeholder='Password']").send_keys(password)
-    wait_clickable(driver, "[type='submit']").click()
-
-    time.sleep(2)
-    print("✔ 재로그인 완료")
-
-
-
-
 # -----------------------------
 # 로그아웃 기능
 # -----------------------------
@@ -146,6 +133,7 @@ def open_signup_page(driver):
     navigate_to_signup(driver)
     click_element(driver, "[type='button']")
 
+#회원가입 입력필드에 입력해주고 agree all 체크박스 눌러주는 기능
 def fill_signup_form(driver, email=None, password=None, name=None):
     if email is not None:
         type_text(driver, "Email", email)
@@ -156,8 +144,10 @@ def fill_signup_form(driver, email=None, password=None, name=None):
 
     driver.find_element(By.CSS_SELECTOR, "input[type='checkbox']").click()
 
+#회원가입 create acoount 버튼 눌러주는 기능
 def submit_signup(driver):
     click_element(driver, "button[type='submit']")
+
 #위의 것들을 합쳐 회원가입이 한번에 되는 회원가입 브라우저 생성->함수 입력필드에 타이핑 후 agree all체크->create account눌러주는 함수 
 def signup(driver, email, password, name):
     open_signup_page(driver)
@@ -166,11 +156,7 @@ def signup(driver, email, password, name):
     
 
 
-# -----------------------------
-# URL 출력
-# -----------------------------
-def print_current_url(driver):
-    print(f"현재 URL: {driver.current_url}")
+
 
 
 
