@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ### qa3team_project
 ### 저는 dongbin폴더 작업을 했습니다. /dongbin_tests는 pytest 스크립트
 ### agent_scripts는 Selenium을 활용하여 AI 에이전트 생성 및 대화 기능의 핵심 시나리오를 자동화를 수행했습니다
@@ -104,3 +105,7 @@ If you have run out of energy or time for your project, put a note at the top of
 
 
 
+=======
+# elice-project
+엘리스 트랙 qa 팀 프로젝트
+>>>>>>> 87f6040a430b5fc8738e08b005fbdaade03d7fcb
