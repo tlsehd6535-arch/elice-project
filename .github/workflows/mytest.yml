@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install selenium pytest webdriver-manager python-dotenv
 
     # 4. 크롬 브라우저 설정 (Ubuntu 서버에는 기본적으로 크롬이 설치되어 있음)
     # 별도의 드라이버 설치 없이도 최근 Selenium 4.x는 자동으로 잡아줍니다.
