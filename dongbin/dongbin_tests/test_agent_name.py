@@ -19,7 +19,7 @@ def test_agent_name_length_validation(driver):
     """에이전트 이름 100자 초과 시 유효성 메시지 노출 및 수정 테스트"""
     wait = WebDriverWait(driver, 15)
     
-    # 1. 내 에이전트 페이지 이동 및 만들기 진입
+    # 1. 내 에이전트 페이지 이동 및 만들기 버튼
     driver.get(AGENT_MINE_URL)
     click_make_button(driver, wait_time=10)
     print("\n[INFO] 에이전트 이름 유효성 테스트 시작")
@@ -29,7 +29,7 @@ def test_agent_name_length_validation(driver):
     name_field.send_keys(LONG_NAME)
     print(f"[ACTION] 101자 입력 완료")
 
-    # 3. 경고 메시지 노출 확인 (Assertion)
+    # 3. 경고 메시지 노출 확인
     validation_msg = wait.until(EC.presence_of_element_located(VALIDATION_XPATH))
     assert validation_msg.is_displayed(), "100자 초과 시 경고 메시지가 노출되지 않았습니다."
     print(f"[SUCCESS] 유효성 검사 메시지 확인: '{VALIDATION_TEXT}'")

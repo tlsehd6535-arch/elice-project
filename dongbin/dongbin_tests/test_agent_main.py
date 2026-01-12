@@ -48,6 +48,7 @@ def test_full_agent_creation_with_file_and_tools(driver):
     wait.until(EC.visibility_of_element_located(STARTER_FIELD_XPATH)).send_keys("대중교통")
     print("[SUCCESS] 기본 정보 입력 완료")
 
+    #파일 업로드
     if os.path.exists(file_path):
         driver.find_element(*FILE_INPUT).send_keys(file_path)
         print(f"[SUCCESS] 파일 업로드 완료: {file_path}")

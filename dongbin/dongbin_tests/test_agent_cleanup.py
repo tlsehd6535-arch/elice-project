@@ -32,7 +32,7 @@ def test_cleanup_test_agents(driver):
         
 
         try:
-            target_card = cards[0]
+            target_card = cards[0] #삭제 할 대상 리스트 중 첫번째
             delete_btn = target_card.find_element(By.CSS_SELECTOR, "button:has([data-testid='trashIcon'])")
             
       

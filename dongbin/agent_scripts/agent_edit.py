@@ -70,4 +70,6 @@ finally:
         time.sleep(3) 
         driver.quit()
         print("\n[INFO] 드라이버 종료.")
+        
+
 
